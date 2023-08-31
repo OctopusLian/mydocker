@@ -18,12 +18,12 @@ var runCommand = cli.Command{
 		},
 	},
 	Action: func(context *cli.Context) error {
-		if len(context.Args()) < 1 {
+		if len(context.Args()) < 1 { // 判断参数是否包含command
 			return fmt.Errorf("Missing container command")
 		}
-		cmd := context.Args().Get(0)
+		cmd := context.Args().Get(0) // 获取用户指定的command
 		tty := context.Bool("ti")
-		container.NewParentProcess(tty, cmd)
+		Run(tty, cmd) // 启动容器
 		return nil
 	},
 }
@@ -33,9 +33,9 @@ var initCommand = cli.Command{
 	Usage: "Init container process run user's process in container. Do not call it outside",
 	Action: func(context *cli.Context) error {
 		logrus.Infof("init come on")
-		cmd := context.Args().Get(0)
+		cmd := context.Args().Get(0) // 获取传递过来的 command 参数
 		logrus.Infof("command %s", cmd)
-		err := container.RunContainerInitProcess(cmd, nil)
+		err := container.RunContainerInitProcess(cmd, nil) // 执行容器初始化操作
 		return err
 	},
 }
